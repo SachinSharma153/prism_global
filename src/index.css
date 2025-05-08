@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* src/index.css (or your global stylesheet) */
+
+/* Hide native scrollbars */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+  /* Keyframes for auto-scroll animation */
+  @keyframes scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  
+  /* Utility to apply the animation */
+  .animate-scroll {
+    /* width must be at least twice the container to loop seamlessly */
+    animation: scroll 20s linear infinite;
+  }
+  
+  /* Ensure the flex container is twice as wide */
+  .animate-scroll {
+    width: max-content;
+  }
+  
+  /* Duplicate children to create seamless loop: 
+     you'll need to render the images array twice in Home.jsx if you want perfect looping.
+     For simplicity, the above will scroll once then jump back. */
+  
