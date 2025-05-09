@@ -1,121 +1,86 @@
 // src/components/Header.jsx
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
 import logo from '../assets/prism_Logo.png';
 
 const destinationsData = [
   {
     region: 'Northern India',
-    color: 'text-red-600',
-    states: [
-      { name: 'DELHI', link: 'delhi.html' },
-      { name: 'HIMACHAL PRADESH', link: 'himachalpradesh.html' },
-      { name: 'HARYANA', link: 'haryana.html' },
-      { name: 'JAMMU AND KASHMIR', link: 'jammu_kashmir.html' },
-      { name: 'PUNJAB', link: 'punjab.html' },
-      { name: 'UTTAR PRADESH', link: 'uttarpradesh.html' },
-      { name: 'UTTARAKHAND', link: 'uttarakhand.html' },
-    ],
+    states: ['Delhi','Himachal Pradesh','Haryana','Jammu & Kashmir','Punjab','Uttar Pradesh','Uttarakhand'],
   },
   {
     region: 'Southern India',
-    color: 'text-yellow-600',
-    states: [
-      { name: 'ANDAMAN & NICOBAR', link: 'andaman_nicobar.html' },
-      { name: 'ANDHRA PRADESH', link: 'andhrapradesh.html' },
-      { name: 'KERALA', link: 'kerala.html' },
-      { name: 'KARNATAKA', link: 'karnataka.html' },
-      { name: 'LAKSHADWEEP', link: 'Lakshadweep.html' },
-      { name: 'PONDICHERRY', link: 'Puducherry.html' },
-      { name: 'TAMILNADU', link: 'tamilnadu.html' },
-      { name: 'TELANGANA', link: 'telangana.html' },
-    ],
+    states: ['Andaman & Nicobar','Andhra Pradesh','Kerala','Karnataka','Lakshadweep','Puducherry','Tamil Nadu','Telangana'],
   },
   {
     region: 'Eastern India',
-    color: 'text-green-600',
-    states: [
-      { name: 'ASSAM', link: 'assam.html' },
-      { name: 'ARUNACHAL PRADESH', link: 'arunachalpradesh.html' },
-      { name: 'BIHAR', link: 'bihar.html' },
-      { name: 'JHARKHAND', link: 'jharkhand.html' },
-      { name: 'MANIPUR', link: 'manipur.html' },
-      { name: 'MEGHALAYA', link: 'meghalaya.html' },
-      { name: 'MIZORAM', link: 'mizoram.html' },
-      { name: 'NAGALAND', link: 'nagaland.html' },
-      { name: 'ORISSA', link: 'orissa.html' },
-      { name: 'SIKKIM', link: 'sikkim.html' },
-      { name: 'TRIPURA', link: 'tripura.html' },
-      { name: 'WEST BENGAL', link: 'westbengal.html' },
-    ],
+    states: ['Assam','Arunachal Pradesh','Bihar','Jharkhand','Manipur','Meghalaya','Mizoram','Nagaland','Orissa','Sikkim','Tripura','West Bengal'],
   },
   {
     region: 'Western India',
-    color: 'text-green-600',
-    states: [
-      { name: 'DADAR & NAGAR HAVELI', link: 'dadraandnagarhaveli.html' },
-      { name: 'DAMAN & DIU', link: 'DamanandDiu.html' },
-      { name: 'GOA', link: 'goa.html' },
-      { name: 'GUJARAT', link: 'gujarat.html' },
-      { name: 'MAHARASHTRA', link: 'maharashtra.html' },
-      { name: 'RAJASTHAN', link: 'rajasthan.html' },
-    ],
+    states: ['Dadar & Nagar Haveli','Daman & Diu','Goa','Gujarat','Maharashtra','Rajasthan'],
   },
   {
     region: 'Central India',
-    color: 'text-red-600',
-    states: [
-      { name: 'MADHYA PRADESH', link: 'madhyapradesh.html' },
-      { name: 'CHHATTISGARH', link: 'Chhattisgarh.html' },
-    ],
+    states: ['Madhya Pradesh','Chhattisgarh'],
   },
 ];
 
 const Header = () => {
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (menu) => {
-    setOpenDropdown(openDropdown === menu ? null : menu);
-  };
+  const [open, setOpen] = useState(false);         // dropdown open?
+  const [mobile, setMobile] = useState(false);     // mobile menu open?
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <img src={logo} alt="PRISM Logo" className="h-10 w-auto" />
+    <header className="sticky top-0 z-50 bg-white shadow">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+        {/* Logo */}
+        <a href="/" className="flex items-center">
+          <img src={logo} alt="PRISM Logo" className="h-10 w-auto" />
+        </a>
 
-        <nav className="hidden md:flex space-x-6 text-sm font-medium">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <a href="/" className="hover:text-blue-600">Home</a>
+
+          {/* Destinations Dropdown */}
           <div className="relative">
             <button
-              onClick={() => toggleDropdown('destinations')}
-              className="flex items-center hover:text-blue-600"
+              onClick={() => setOpen((o) => !o)}
+              className="flex items-center hover:text-blue-600 focus:outline-none"
             >
               Destinations
-              {openDropdown === 'destinations' ? (
+              {open ? (
                 <ChevronUp className="ml-1 w-4 h-4" />
               ) : (
                 <ChevronDown className="ml-1 w-4 h-4" />
               )}
             </button>
-            {openDropdown === 'destinations' && (
-              <div className="absolute left-0 w-[400px] max-h-[500px] overflow-y-auto bg-white shadow-lg mt-2 p-4 rounded z-20">
-                <p className="text-lg font-semibold mb-2">OUR BEST DESTINATIONS</p>
-                {destinationsData.map((region, idx) => (
-                  <div key={idx} className="mb-4">
-                    <p className={`font-semibold mb-1 ${region.color}`}>{region.region}</p>
-                    <ul className="ml-4 list-disc list-inside space-y-1">
-                      {region.states.map((state, index) => (
-                        <li key={index}>
-                          <a
-                            href={state.link}
-                            className="text-gray-700 hover:underline"
-                          >
-                            {state.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+
+            {open && (
+              <div
+                className="absolute left-0 mt-2 w-[400px] max-h-[500px] overflow-y-auto bg-white shadow-lg rounded p-4"
+                onMouseLeave={() => setOpen(false)}
+              >
+                <p className="text-lg font-semibold mb-4">OUR REGIONS</p>
+                <div className="grid grid-cols-2 gap-6">
+                  {destinationsData.map(({ region, states }) => (
+                    <div key={region}>
+                      <p className="font-semibold mb-2">{region}</p>
+                      <ul className="space-y-1 text-gray-700">
+                        {states.map((state) => (
+                          <li key={state}>
+                            <a
+                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi,'-')}.html`}
+                              className="hover:underline"
+                            >
+                              {state}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -124,11 +89,75 @@ const Header = () => {
           <a href="#" className="hover:text-blue-600">Deals</a>
         </nav>
 
-        {/* Mobile menu placeholder */}
-        <div className="md:hidden">
-          {/* Mobile hamburger logic goes here */}
-        </div>
+        {/* Mobile Toggle */}
+        <button
+          className="md:hidden p-2 focus:outline-none"
+          onClick={() => setMobile((m) => !m)}
+          aria-label="Toggle menu"
+        >
+          {mobile ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobile && (
+        <div className="md:hidden fixed inset-0 bg-white z-40 overflow-y-auto">
+          <div className="flex items-center justify-between px-4 py-3 border-b">
+            <a href="/">
+              <img src={logo} alt="PRISM Logo" className="h-10 w-auto" />
+            </a>
+            <button
+              onClick={() => setMobile(false)}
+              className="p-2 focus:outline-none"
+              aria-label="Close menu"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="px-4 py-6 space-y-6">
+            <a href="/" className="block text-lg font-medium hover:text-blue-600">
+              Home
+            </a>
+            <div>
+              <button
+                onClick={() => setOpen((o) => !o)}
+                className="w-full flex justify-between items-center text-lg font-medium"
+              >
+                Destinations
+                {open ? <ChevronUp /> : <ChevronDown />}
+              </button>
+              {open && (
+                <div className="mt-3 space-y-4">
+                  {destinationsData.map(({ region, states }) => (
+                    <div key={region}>
+                      <p className="font-semibold mb-2">{region}</p>
+                      <ul className="ml-4 space-y-1 text-gray-700">
+                        {states.map((state) => (
+                          <li key={state}>
+                            <a
+                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi,'-')}.html`}
+                              className="block hover:text-blue-600"
+                              onClick={() => setMobile(false)}
+                            >
+                              {state}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <a href="#" className="block text-lg font-medium hover:text-blue-600">
+              Why PRISM
+            </a>
+            <a href="#" className="block text-lg font-medium hover:text-blue-600">
+              Deals
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

@@ -1,91 +1,127 @@
-import React from 'react';
+import React from "react";
+import footerImg from "../assets/footer/image.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-800 px-6 py-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
-        {/* Column 1 */}
-        <div>
-          <h3 className="font-bold mb-4">G Adventures</h3>
-          <ul className="space-y-2">
-            <li>About us</li>
-            <li>Values</li>
-            <li>LGBTQ+ inclusivity</li>
-            <li>Careers</li>
-            <li>Media centre</li>
-          </ul>
-        </div>
+    <footer className="relative bg-gray-100 text-gray-800 py-16 min-h-[500px] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Links Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Prism</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  About us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Values
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Media centre
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        {/* Column 2 */}
-        <div>
-          <h3 className="font-bold mb-4">Support</h3>
-          <ul className="space-y-2">
-            <li>Contact us</li>
-            <li>FAQs</li>
-            <li>Go Adventures Travel resources</li>
-            <li>Pre-departure info</li>
-            <li>Safety updates</li>
-          </ul>
-        </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Support</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Contact us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Travel resources
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Pre-departure info
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Safety updates
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        {/* Column 3 */}
-        <div>
-          <h3 className="font-bold mb-4">Community</h3>
-          <ul className="space-y-2">
-            <li>Blog</li>
-            <li>Newsletter</li>
-            <li>The Great Adventurers Club</li>
-            <li>Affiliate program</li>
-            <li>Brochures</li>
-          </ul>
-        </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Community</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Newsletter
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Adventurers Club
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Affiliate program
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-yellow-500">
+                  Brochures
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        {/* Column 4 */}
-        <div>
-          <h3 className="font-bold mb-4">Travel Agents</h3>
-          <ul className="space-y-2">
-            <li>Agent login</li>
-            <li>Agent registration</li>
-            <li>Find an agent</li>
-          </ul>
-        </div>
-
-        {/* Column 5 */}
-        <div>
-          <h3 className="font-bold mb-4">G NATION</h3>
-          <div className="flex space-x-4">
-            <span>📷</span>
-            <span>🌐</span>
-            <span>🎵</span>
-            <span>📘</span>
-            <span>📌</span>
-            <span>✖️</span>
-            <span>📺</span>
-            <span>💼</span>
+          <div>
+            <h3 className="text-lg font-semibold mb-4">G NATION</h3>
+            <div className="flex space-x-4">
+              <span className="hover:text-yellow-500">📷</span>
+              <span className="hover:text-yellow-500">🌐</span>
+              <span className="hover:text-yellow-500">🎵</span>
+              <span className="hover:text-yellow-500">📘</span>
+              <span className="hover:text-yellow-500">📌</span>
+              <span className="hover:text-yellow-500">✖️</span>
+              <span className="hover:text-yellow-500">📺</span>
+              <span className="hover:text-yellow-500">💼</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Language & Country */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mt-10 space-y-4 sm:space-y-0">
-        <div className="flex space-x-4">
-          <select className="border rounded p-2">
-            <option>English</option>
-          </select>
-          <select className="border rounded p-2">
-            <option>India</option>
-          </select>
-        </div>
-
-        {/* Legal Links */}
-        <div className="text-sm text-gray-600 mt-4 sm:mt-0">
-          © 2025 G Adventures. All rights reserved. &nbsp;&bull;&nbsp;
-          <a href="#">Terms and Conditions</a> &nbsp;&bull;&nbsp;
-          <a href="#">Privacy Policy</a> &nbsp;&bull;&nbsp;
-          <a href="#">Manage Cookies</a> &nbsp;&bull;&nbsp;
-          <a href="#">API</a>
+        {/* Copyright */}
+        <div className="text-center text-sm text-gray-600 mb-4">
+          © 2025 Prism. All Rights Reserved.
         </div>
       </div>
+
+      {/* Decorative Footer SVG */}
+      <img
+        src={footerImg}
+        alt="Decorative SVG"
+        className="absolute bottom-0 right-0 h-96 w-auto opacity-80"
+      />
     </footer>
   );
 };
