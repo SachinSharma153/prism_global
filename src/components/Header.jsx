@@ -1,34 +1,35 @@
 // src/components/Header.jsx
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Menu, X, Phone, Search } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Import Link
 import logo from '../assets/prism_Logo.png';
 
 const destinationsData = [
   {
     region: 'Northern India',
-    states: ['Delhi','Himachal Pradesh','Haryana','Jammu & Kashmir','Punjab','Uttar Pradesh','Uttarakhand'],
+    states: ['Delhi', 'Himachal Pradesh', 'Haryana', 'Jammu & Kashmir', 'Punjab', 'Uttar Pradesh', 'Uttarakhand'],
   },
   {
     region: 'Southern India',
-    states: ['Andaman & Nicobar','Andhra Pradesh','Kerala','Karnataka','Lakshadweep','Puducherry','Tamil Nadu','Telangana'],
+    states: ['Andaman & Nicobar', 'Andhra Pradesh', 'Kerala', 'Karnataka', 'Lakshadweep', 'Puducherry', 'Tamil Nadu', 'Telangana'],
   },
   {
     region: 'Eastern India',
-    states: ['Assam','Arunachal Pradesh','Bihar','Jharkhand','Manipur','Meghalaya','Mizoram','Nagaland','Orissa','Sikkim','Tripura','West Bengal'],
+    states: ['Assam', 'Arunachal Pradesh', 'Bihar', 'Jharkhand', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Orissa', 'Sikkim', 'Tripura', 'West Bengal'],
   },
   {
     region: 'Western India',
-    states: ['Dadar & Nagar Haveli','Daman & Diu','Goa','Gujarat','Maharashtra','Rajasthan'],
+    states: ['Dadar & Nagar Haveli', 'Daman & Diu', 'Goa', 'Gujarat', 'Maharashtra', 'Rajasthan'],
   },
   {
     region: 'Central India',
-    states: ['Madhya Pradesh','Chhattisgarh'],
+    states: ['Madhya Pradesh', 'Chhattisgarh'],
   },
 ];
 
 const Header = () => {
-  const [open, setOpen] = useState(false);         // dropdown open?
-  const [mobile, setMobile] = useState(false);     // mobile menu open?
+  const [open, setOpen] = useState(false); // dropdown open?
+  const [mobile, setMobile] = useState(false); // mobile menu open?
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow">
@@ -38,8 +39,8 @@ const Header = () => {
           <img src={logo} alt="PRISM Logo" className="h-10 w-auto" />
         </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        {/* Desktop Nav - Centered */}
+        <nav className="hidden md:flex flex-1 justify-center items-center space-x-6 text-sm font-medium">
           <a href="/" className="hover:text-blue-600">Home</a>
 
           {/* Destinations Dropdown */}
@@ -70,7 +71,7 @@ const Header = () => {
                         {states.map((state) => (
                           <li key={state}>
                             <a
-                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi,'-')}.html`}
+                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi, '-')}.html`}
                               className="hover:underline"
                             >
                               {state}
@@ -88,6 +89,16 @@ const Header = () => {
           <a href="#" className="hover:text-blue-600">Why PRISM</a>
           <a href="#" className="hover:text-blue-600">Deals</a>
         </nav>
+
+        {/* Call and Search Icons - Right Aligned */}
+        <div className="hidden md:flex items-center space-x-4">
+          <Link to="/contact-us" className="hover:text-blue-600" aria-label="Contact us">
+            <Phone className="w-5 h-5" />
+          </Link>
+          <a href="/search" className="hover:text-blue-600" aria-label="Search">
+            <Search className="w-5 h-5" />
+          </a>
+        </div>
 
         {/* Mobile Toggle */}
         <button
@@ -115,7 +126,7 @@ const Header = () => {
             </button>
           </div>
           <div className="px-4 py-6 space-y-6">
-            <a href="/" className="block text-lg font-medium hover:text-blue-600">
+            <a href="/" className="block text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
               Home
             </a>
             <div>
@@ -135,7 +146,7 @@ const Header = () => {
                         {states.map((state) => (
                           <li key={state}>
                             <a
-                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi,'-')}.html`}
+                              href={`/${state.toLowerCase().replace(/[^a-z0-9]+/gi, '-')}.html`}
                               className="block hover:text-blue-600"
                               onClick={() => setMobile(false)}
                             >
@@ -149,12 +160,24 @@ const Header = () => {
                 </div>
               )}
             </div>
-            <a href="#" className="block text-lg font-medium hover:text-blue-600">
+            <a href="#" className="block text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
               Why PRISM
             </a>
-            <a href="#" className="block text-lg font-medium hover:text-blue-600">
+            <a href="#" className="block text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
               Deals
             </a>
+            <div className="flex space-x-6 pt-4">
+              <Link
+                to="/contact-us"
+                className="text-lg font-medium hover:text-blue-600"
+                onClick={() => setMobile(false)}
+              >
+                <Phone className="w-6 h-6 inline mr-2" /> Contact Us
+              </Link>
+              <a href="/search" className="text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
+                <Search className="w-6 h-6 inline mr-2" /> Search
+              </a>
+            </div>
           </div>
         </div>
       )}
