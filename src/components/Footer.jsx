@@ -4,7 +4,10 @@ import footerImg from "../assets/footer/image.svg";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gray-100 text-gray-800 py-16 overflow-hidden">
+    <footer
+      className="relative text-gray-800 py-16 overflow-hidden bg-gray-100 bg-no-repeat bg-cover bg-right-bottom"
+      style={{ backgroundImage: `url(${footerImg})` }}
+    >
       {/* Main content container */}
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Grid for footer sections */}
@@ -61,18 +64,6 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      {/* Image for larger screens */}
-      <img
-        src={footerImg}
-        alt="Footer decoration"
-        className="absolute bottom-0 right-0 h-96 w-auto opacity-80 hidden md:block"
-      />
-      {/* Image for smaller screens */}
-      <img
-        src={footerImg}
-        alt="Footer decoration"
-        className="block md:hidden w-full mt-8 opacity-80"
-      />
     </footer>
   );
 };

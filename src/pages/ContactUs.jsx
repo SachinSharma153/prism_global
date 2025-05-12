@@ -1,7 +1,23 @@
-// src/components/ContactUs.jsx
-import React from 'react';
+import React, { useState } from 'react';
 
 const ContactUs = () => {
+  const [openFaqs, setOpenFaqs] = useState([]);
+
+  const toggleFaq = (index) => {
+    if (openFaqs.includes(index)) {
+      setOpenFaqs(openFaqs.filter(i => i !== index));
+    } else {
+      setOpenFaqs([...openFaqs, index]);
+    }
+  };
+
+  const faqs = [
+    { question: "What is Prism?", answer: "Prism is a streaming service that offers a wide variety of TV shows, movies, and more." },
+    { question: "How much does Prism cost?", answer: "Prism offers several subscription plans starting from $9.99 per month." },
+    { question: "What can I watch on Prism?", answer: "You can watch thousands of TV shows, movies, and Prism Originals." },
+    { question: "Where can I watch Prism?", answer: "You can watch Prism on your TV, computer, tablet, or mobile device." },
+  ];
+
   return (
     <div className="bg-gray-100 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -9,9 +25,8 @@ const ContactUs = () => {
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-12">Contact Us</h1>
 
         {/* Contact Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {/* Card 1 */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex flex-col md:flex-row justify-center gap-8 mb-12">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-80">
             <div className="flex items-center mb-4">
               <svg
                 className="w-8 h-8 text-blue-600 mr-4"
@@ -32,12 +47,11 @@ const ContactUs = () => {
             <p className="text-gray-600 mb-4">
               Reach out to our support team by phone for immediate assistance.
             </p>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button className="bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded hover:bg-purple-50">
               Chat with us
             </button>
           </div>
-          {/* Card 2 */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-80">
             <div className="flex items-center mb-4">
               <svg
                 className="w-8 h-8 text-blue-600 mr-4"
@@ -58,44 +72,37 @@ const ContactUs = () => {
             <p className="text-gray-600 mb-4">
               Drop us an email, and we’ll respond within 24 hours.
             </p>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button className="bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded hover:bg-purple-50">
               Chat with us
             </button>
           </div>
         </div>
 
         {/* FAQ Section */}
-        <section className="faq bg-black text-white p-8 rounded-lg mb-12">
+        <section className="faq bg-gray-200 text-black p-8 rounded-lg mb-12">
           <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-4">
-            <div className="faqbox flex justify-between items-center bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700">
-              <span>What is Prism?</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4V20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M4 12H20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="faqbox flex justify-between items-center bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700">
-              <span>How much does Prism cost?</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4V20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M4 12H20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="faqbox flex justify-between items-center bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700">
-              <span>What can I watch on Prism?</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4V20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M4 12H20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="faqbox flex justify-between items-center bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700">
-              <span>Where can I watch Prism?</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4V20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M4 12H20" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+            {faqs.map((faq, index) => (
+              <div key={index} className="faqbox bg-white p-4 rounded cursor-pointer">
+                <div className="flex justify-between items-center" onClick={() => toggleFaq(index)}>
+                  <span>{faq.question}</span>
+                  {openFaqs.includes(index) ? (
+                    <svg width="30" height="30" viewBox="0 0 58 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="29" cy="29.5" r="28.5" fill="#F3F3F3" stroke="#191A23"/>
+                      <path d="M20 32.14V26.5H37.76V32.14H20Z" fill="black"/>
+                    </svg>
+                  ) : (
+                    <svg width="30" height="30" viewBox="0 0 58 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="29" cy="29.5" r="28.5" fill="#F3F3F3" stroke="#191A23"/>
+                      <path d="M25.6 41.58V31.86H16V26.22H25.6V16.5H31.48V26.22H41.08V31.86H31.48V41.58H25.6Z" fill="#191A23"/>
+                    </svg>
+                  )}
+                </div>
+                <div className={`answer mt-2 text-gray-700 overflow-hidden transition-all duration-300 ${openFaqs.includes(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  {faq.answer}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 

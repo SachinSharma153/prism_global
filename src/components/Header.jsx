@@ -1,7 +1,6 @@
-// src/components/Header.jsx
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Menu, X, Phone, Search } from 'lucide-react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import logo from '../assets/prism_Logo.png';
 
 const destinationsData = [
@@ -86,6 +85,7 @@ const Header = () => {
             )}
           </div>
 
+          <a href="/vibe-finder" className="hover:text-blue-600">What's Your Vibe</a>
           <a href="#" className="hover:text-blue-600">Why PRISM</a>
           <a href="#" className="hover:text-blue-600">Deals</a>
         </nav>
@@ -160,6 +160,9 @@ const Header = () => {
                 </div>
               )}
             </div>
+            <a href="/vibe-finder" className="block text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
+              What's Your Vibe
+            </a>
             <a href="#" className="block text-lg font-medium hover:text-blue-600" onClick={() => setMobile(false)}>
               Why PRISM
             </a>
