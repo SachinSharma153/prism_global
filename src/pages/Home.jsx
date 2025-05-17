@@ -1,16 +1,47 @@
 // Enhanced Home.jsx with added paddings and extended carousel cards
 import React, { useEffect, useState } from "react";
 
-const FALLBACK_IMAGE = "https://via.placeholder.com/1920x1080?text=Fallback+Image";
+const FALLBACK_IMAGE =
+  "https://via.placeholder.com/1920x1080?text=Fallback+Image";
 
-const slides = [
+// Load images from ../assets/hero (relative to this file)
+const imageModules = import.meta.glob("../assets/hero/*.jpg", { eager: true });
+const imagePaths = Object.values(imageModules).map((mod) => mod.default);
+
+// Metadata for each image (ensure order matches filenames alphabetically)
+const meta = [
   {
-    img: "https://source.unsplash.com/1920x1080/?mountains,village",
-    title: "Start your unforgettable journey with us.",
-    desc: "The best travel for your journey begins here.",
-    link: "/",
+    title: "Bodh Gaya Temple",
+    desc: "Discover the sacred site where Buddha attained enlightenment.",
+    link: "/bodhgaya",
+  },
+  {
+    title: "Alleppey Houseboat",
+    desc: "Drift through Kerala’s serene backwaters on a traditional houseboat.",
+    link: "/alleppey",
+  },
+  {
+    title: "Golden Temple",
+    desc: "Experience the divine peace at the famous Golden Temple.",
+    link: "/amritsar",
+  },
+  {
+    title: "Andaman Islands",
+    desc: "Tropical paradise with turquoise waters and white sand beaches.",
+    link: "/andaman",
+  },
+  {
+    title: "Kerala Backwaters",
+    desc: "Peaceful nights floating under the stars in houseboats.",
+    link: "/kerala",
   },
 ];
+
+// Merge image paths with metadata
+const slides = imagePaths.map((img, index) => ({
+  img,
+  ...meta[index],
+}));
 
 const destinations = [
   {
@@ -114,11 +145,11 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 h-full flex flex-col justify-center items-start px-6 md:px-24 space-y-6">
-          <h1 className="text-white text-4xl md:text-6xl font-bold max-w-xl">
-            {slides[current].title}
+          <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug">
+            Start your unforgettable <br /> journey with us.
           </h1>
-          <p className="text-white text-lg md:text-xl max-w-md">
-            {slides[current].desc}
+          <p className="text-white text-lg md:text-xl mt-2">
+            The best travel for your journey begins now
           </p>
 
           <div className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md space-y-3 w-full max-w-xl">
@@ -147,18 +178,41 @@ const Home = () => {
             </button>
           </div>
         </div>
+
+        {/* Scrollable Dots */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrent(idx)}
+              className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                current === idx ? "bg-[#FF6644]" : "bg-white"
+              }`}
+            />
+          ))}
+        </div>
       </section>
 
       {/* Popular Destinations */}
       <section className="py-24 px-6 md:px-24 bg-white">
-        <h2 className="text-4xl font-bold text-center mb-6">Popular Destinations</h2>
+        <h2 className="text-4xl font-bold text-center mb-6">
+          Popular Destinations
+        </h2>
         <p className="text-center text-gray-600 mb-12">
-          Most popular destinations around the world, from historical places to natural wonders.
+          Most popular destinations around the world, from historical places to
+          natural wonders.
         </p>
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {destinations.map((dest, i) => (
-            <div key={i} className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg">
-              <img src={dest.img} alt={dest.name} className="w-full h-56 object-cover" />
+            <div
+              key={i}
+              className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg"
+            >
+              <img
+                src={dest.img}
+                alt={dest.name}
+                className="w-full h-56 object-cover"
+              />
               <div className="p-4">
                 <h3 className="font-semibold text-lg">{dest.name}</h3>
                 <p className="text-sm text-gray-500">{dest.location}</p>
@@ -171,11 +225,20 @@ const Home = () => {
       {/* Trip Planners */}
       <section className="py-24 px-6 md:px-24 bg-gray-50">
         <h2 className="text-4xl font-bold mb-6">Trip Planners</h2>
-        <p className="text-gray-600 mb-8">Explore recommended plans based on our most loved destinations.</p>
+        <p className="text-gray-600 mb-8">
+          Explore recommended plans based on our most loved destinations.
+        </p>
         <div className="flex overflow-x-auto space-x-6 pb-4">
           {tripPlans.map((plan, i) => (
-            <div key={i} className="min-w-[250px] bg-white rounded-lg shadow p-4">
-              <img src={plan.img} alt={plan.place} className="h-40 w-full object-cover rounded mb-3" />
+            <div
+              key={i}
+              className="min-w-[250px] bg-white rounded-lg shadow p-4"
+            >
+              <img
+                src={plan.img}
+                alt={plan.place}
+                className="h-40 w-full object-cover rounded mb-3"
+              />
               <h4 className="font-semibold">{plan.place}</h4>
               <p className="text-sm text-gray-500">{plan.days}</p>
             </div>
@@ -185,7 +248,9 @@ const Home = () => {
 
       {/* Traveler's Experiences */}
       <section className="py-24 px-6 md:px-24 bg-white">
-        <h2 className="text-4xl font-bold text-center mb-6">Traveler's Experiences</h2>
+        <h2 className="text-4xl font-bold text-center mb-6">
+          Traveler's Experiences
+        </h2>
         <p className="text-center text-gray-600 mb-10">
           See what our travelers had to say about their recent adventures.
         </p>
