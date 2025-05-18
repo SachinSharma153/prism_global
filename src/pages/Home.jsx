@@ -1,5 +1,8 @@
-// Enhanced Home.jsx with added paddings and extended carousel cards
-import React, { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation, A11y } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 const FALLBACK_IMAGE =
   "https://via.placeholder.com/1920x1080?text=Fallback+Image";
@@ -37,8 +40,8 @@ const meta = [
   },
 ];
 
-// Merge image paths with metadata
-const slides = imagePaths.map((img, index) => ({
+// Merge image paths with metadata (limit to the number of metadata entries)
+const slides = imagePaths.slice(0, meta.length).map((img, index) => ({
   img,
   ...meta[index],
 }));
@@ -122,76 +125,87 @@ const experiences = [
   },
 ];
 
-const Home = () => {
-  const [current, setCurrent] = useState(0);
+// HeroCarousel component using Swiper
+const HeroCarousel = () => (
+  <section
+    className="relative h-[92vh] w-full overflow-hidden"
+    role="region"
+    aria-label="Hero carousel"
+  >
+    <Swiper
+      modules={[Autoplay, Pagination, Navigation, A11y]}
+      spaceBetween={0}
+      slidesPerView={1}
+      loop
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
+      pagination={{ clickable: true }}
+      navigation
+      a11y={{ prevSlideMessage: 'Previous slide', nextSlideMessage: 'Next slide' }}
+      className="h-full"
+    >
+      {slides.map(({ img, title }, idx) => (
+        <SwiperSlide key={idx}>
+          <img
+            src={img}
+            alt={`${title} hero image`}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGE; }}
+          />
+          <div className="absolute inset-0 bg-black/50" aria-hidden />
+        </SwiperSlide>
+      ))}
+    </Swiper>
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    {/* Overlay content */}
+    <div className="absolute inset-0 z-10 flex flex-col justify-center items-start px-6 md:px-24 space-y-6">
+      <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug">
+        Start your unforgettable <br /> journey with us.
+      </h1>
+      <p classrün="text-white text-lg md:text-xl">
+        The best travel for your journey begins now.
+      </p>
 
-  return (
-    <main className="w-full font-sans">
-      {/* Hero Section */}
-      <section className="relative h-[90vh] w-full overflow-hidden">
-        <img
-          src={slides[current].img}
-          alt="hero background"
-          className="absolute inset-0 w-full h-full object-cover"
-          onError={(e) => (e.target.src = FALLBACK_IMAGE)}
-        />
-        <div className="absolute inset-0 bg-black/50" />
-
-        <div className="relative z-10 h-full flex flex-col justify-center items-start px-6 md:px-24 space-y-6">
-          <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug">
-            Start your unforgettable <br /> journey with us.
-          </h1>
-          <p className="text-white text-lg md:text-xl mt-2">
-            The best travel for your journey begins now
-          </p>
-
-          <div className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md space-y-3 w-full max-w-xl">
-            <div className="grid grid-cols-2 gap-4">
+      <form
+        aria-label="Search trips"
+        className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full max-w-xl"
+      >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { id: 'location', placeholder: 'Enter location', type: 'text' },
+            { id: 'travelType', placeholder: 'Travel type', type: 'text' },
+            { id: 'startDate', placeholder: '', type: 'date' },
+            { id: 'endDate', placeholder: '', type: 'date' },
+          ].map(({ id, placeholder, type }) => (
+            <div key={id} className="flex flex-col">
+              <label htmlFor={id} className="sr-only">
+                {placeholder || (type === 'date' ? id === 'startDate' ? 'Start date' : 'End date' : '')}
+              </label>
               <input
-                type="text"
-                placeholder="Enter location"
-                className="px-4 py-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Travel type"
-                className="px-4 py-2 border border-gray-300 rounded"
-              />
-              <input
-                type="date"
-                className="px-4 py-2 border border-gray-300 rounded"
-              />
-              <input
-                type="date"
-                className="px-4 py-2 border border-gray-300 rounded"
+                id={id}
+                type={type}
+                placeholder={placeholder}
+                className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
-            <button className="bg-primary text-white w-full py-2 rounded hover:bg-orange-500">
-              Book Now
-            </button>
-          </div>
-        </div>
-
-        {/* Scrollable Dots */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrent(idx)}
-              className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                current === idx ? "bg-[#FF6644]" : "bg-white"
-              }`}
-            />
           ))}
         </div>
-      </section>
+        <button
+          type="submit"
+          className="bg-primary text-white w-full py-2 rounded hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 mt-4"
+        >
+          Book Now
+        </button>
+      </form>
+    </div>
+  </section>
+);
+
+// Main Home component
+const Home = () => {
+  return (
+    <main className="w-full font-sans">
+      <HeroCarousel />
 
       {/* Popular Destinations */}
       <section className="py-24 px-6 md:px-24 bg-white">
