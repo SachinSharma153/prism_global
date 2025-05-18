@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, A11y } from 'swiper/modules';
+import { Autoplay, Pagination, A11y } from 'swiper/modules';  // Removed Navigation import
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+// Removed 'swiper/css/navigation' import as well
 
 const FALLBACK_IMAGE =
   "https://via.placeholder.com/1920x1080?text=Fallback+Image";
@@ -133,13 +133,13 @@ const HeroCarousel = () => (
     aria-label="Hero carousel"
   >
     <Swiper
-      modules={[Autoplay, Pagination, Navigation, A11y]}
+      modules={[Autoplay, Pagination, A11y]} // removed Navigation here
       spaceBetween={0}
       slidesPerView={1}
       loop
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       pagination={{ clickable: true }}
-      navigation
+      // navigation removed here to hide arrows
       a11y={{ prevSlideMessage: 'Previous slide', nextSlideMessage: 'Next slide' }}
       className="h-full"
     >
@@ -162,7 +162,7 @@ const HeroCarousel = () => (
       <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug">
         Start your unforgettable <br /> journey with us.
       </h1>
-      <p classrün="text-white text-lg md:text-xl">
+      <p className="text-white text-lg md:text-xl">
         The best travel for your journey begins now.
       </p>
 
