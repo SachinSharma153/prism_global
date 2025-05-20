@@ -1,8 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, A11y } from 'swiper/modules';  // Removed Navigation import
+import { Autoplay, Pagination, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-// Removed 'swiper/css/navigation' import as well
 
 const FALLBACK_IMAGE =
   "https://via.placeholder.com/1920x1080?text=Fallback+Image";
@@ -133,62 +132,84 @@ const HeroCarousel = () => (
     aria-label="Hero carousel"
   >
     <Swiper
-      modules={[Autoplay, Pagination, A11y]} // removed Navigation here
+      modules={[Autoplay, Pagination, A11y]}
       spaceBetween={0}
       slidesPerView={1}
       loop
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       pagination={{ clickable: true }}
-      // navigation removed here to hide arrows
       a11y={{ prevSlideMessage: 'Previous slide', nextSlideMessage: 'Next slide' }}
       className="h-full"
     >
-      {slides.map(({ img, title }, idx) => (
-        <SwiperSlide key={idx}>
+      {slides.map(({ img, title,  /* desc */}, idx) => (
+       
+        <SwiperSlide key={title + idx}>
           <img
             src={img}
-            alt={`${title} hero image`}
+            alt={title}
             loading="lazy"
             className="absolute inset-0 w-full h-full object-cover"
             onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGE; }}
           />
-          <div className="absolute inset-0 bg-black/50" aria-hidden />
+          <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
+          {/* Overlay slide info (Place names and Explore button removed) */}
+          <div className="absolute left-0 bottom-0 p-8 z-10 text-white max-w-xl">
+            {/* <h2 className="text-2xl md:text-4xl font-bold mb-2">{title}</h2>
+            <p className="mb-3">{desc}</p> */}
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
-
     {/* Overlay content */}
-    <div className="absolute inset-0 z-10 flex flex-col justify-center items-start px-6 md:px-24 space-y-6">
-      <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug">
+    <div className="absolute inset-0 z-20 flex flex-col justify-center items-start px-6 md:px-24 space-y-6 pointer-events-none">
+      <h1 className="text-white text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-snug pointer-events-auto">
         Start your unforgettable <br /> journey with us.
       </h1>
-      <p className="text-white text-lg md:text-xl">
+      <p className="text-white text-lg md:text-xl pointer-events-auto">
         The best travel for your journey begins now.
       </p>
-
       <form
         aria-label="Search trips"
-        className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full max-w-xl"
+        className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full max-w-xl pointer-events-auto"
+        onSubmit={e => e.preventDefault()}
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { id: 'location', placeholder: 'Enter location', type: 'text' },
-            { id: 'travelType', placeholder: 'Travel type', type: 'text' },
-            { id: 'startDate', placeholder: '', type: 'date' },
-            { id: 'endDate', placeholder: '', type: 'date' },
-          ].map(({ id, placeholder, type }) => (
-            <div key={id} className="flex flex-col">
-              <label htmlFor={id} className="sr-only">
-                {placeholder || (type === 'date' ? id === 'startDate' ? 'Start date' : 'End date' : '')}
-              </label>
-              <input
-                id={id}
-                type={type}
-                placeholder={placeholder}
-                className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-          ))}
+          <div className="flex flex-col">
+            <label htmlFor="location" className="sr-only">Location</label>
+            <input
+              id="location"
+              type="text"
+              placeholder="Enter location"
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="travelType" className="sr-only">Travel type</label>
+            <input
+              id="travelType"
+              type="text"
+              placeholder="Travel type"
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="startDate" className="sr-only">Start date</label>
+            <input
+              id="startDate"
+              type="date"
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="endDate" className="sr-only">End date</label>
+            <input
+              id="endDate"
+              type="date"
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
         </div>
         <button
           type="submit"
@@ -219,13 +240,15 @@ const Home = () => {
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {destinations.map((dest, i) => (
             <div
-              key={i}
+              key={dest.name + i}
               className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg"
             >
               <img
                 src={dest.img}
                 alt={dest.name}
                 className="w-full h-56 object-cover"
+                loading="lazy"
+                onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMAGE; }}
               />
               <div className="p-4">
                 <h3 className="font-semibold text-lg">{dest.name}</h3>
@@ -245,13 +268,15 @@ const Home = () => {
         <div className="flex overflow-x-auto space-x-6 pb-4">
           {tripPlans.map((plan, i) => (
             <div
-              key={i}
+              key={plan.place + i}
               className="min-w-[250px] bg-white rounded-lg shadow p-4"
             >
               <img
                 src={plan.img}
                 alt={plan.place}
                 className="h-40 w-full object-cover rounded mb-3"
+                loading="lazy"
+                onError={e => { e.target.onerror = null; e.target.src = FALLBACK_IMAGE; }}
               />
               <h4 className="font-semibold">{plan.place}</h4>
               <p className="text-sm text-gray-500">{plan.days}</p>
@@ -271,7 +296,7 @@ const Home = () => {
         <div className="flex overflow-x-auto gap-6">
           {experiences.map((exp, i) => (
             <div
-              key={i}
+              key={exp.name + i}
               className="min-w-[320px] bg-gray-50 p-6 rounded-lg shadow text-sm space-y-3"
             >
               <p className="text-gray-800">"{exp.desc}"</p>
